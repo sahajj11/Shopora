@@ -58,3 +58,4 @@ uploads/
 # Misc
 *.tgz
 *.swp
+/generated/prisma
