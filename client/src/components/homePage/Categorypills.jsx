@@ -5,7 +5,7 @@ const categories = [
   { id: 2, emoji: "🥛", label: "Dairy & Eggs" },
   { id: 3, emoji: "🥦", label: "Vegetables" },
   { id: 4, emoji: "🍎", label: "Fruits" },
-  { id: 5, emoji: "🍗", label: "Meat & Fish" },
+
   { id: 6, emoji: "🥤", label: "Beverages" },
   { id: 7, emoji: "🍿", label: "Snacks" },
   { id: 8, emoji: "🧴", label: "Personal Care" },
@@ -21,24 +21,41 @@ const CategoryPills = () => {
   const [active, setActive] = useState(1);
 
   return (
-    <div className="bg-white border-b border-gray-100 sticky top-[65px] z-40">
-      <div className="max-w-screen-xl mx-auto px-8">
-        <div className="flex items-center gap-3 overflow-x-auto py-4 scrollbar-hide">
-          {categories.map(({ id, emoji, label }) => (
-            <button
-              key={id}
-              onClick={() => setActive(id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all shrink-0
-                ${active === id
-                  ? "bg-violet-700 text-white shadow-sm shadow-violet-200"
-                  : "bg-gray-100 text-gray-600 hover:bg-violet-50 hover:text-violet-700"
-                }`}
-            >
-              <span className="text-base">{emoji}</span>
-              <span>{label}</span>
-            </button>
-          ))}
+    <div className="sticky top-[65px] z-40 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
+      <div className="relative mx-auto max-w-screen-xl">
+        
+        {/* Left Scroll Edge Gradient (For Premium Mobile Affordance) */}
+        <div className="pointer-events-none absolute left-4 sm:left-8 bottom-0 top-0 z-10 w-8 bg-gradient-to-r from-white to-transparent md:hidden" />
+        
+        {/* Horizontal Scroll Track */}
+        <div className="flex items-center gap-2 overflow-x-auto py-3.5 no-scrollbar scroll-smooth">
+          {categories.map(({ id, emoji, label }) => {
+            const isActive = active === id;
+            return (
+              <button
+                key={id}
+                onClick={() => setActive(id)}
+                type="button"
+                className={`group flex items-center gap-2.5 rounded-xl px-4 py-2 text-xs font-medium tracking-wide transition-all duration-200 shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/20
+                  ${
+                    isActive
+                      ? "bg-purple-600 text-white shadow-sm shadow-slate-900/10"
+                      : "bg-slate-50 text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
+                  }`}
+              >
+                {/* Micro-interaction: Slight bounce on emoji when group is hovered */}
+                <span className="text-sm transition-transform duration-200 group-hover:scale-110 group-active:scale-95 select-none">
+                  {emoji}
+                </span>
+                <span>{label}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Right Scroll Edge Gradient (For Premium Mobile Affordance) */}
+        <div className="pointer-events-none absolute right-4 sm:right-8 bottom-0 top-0 z-10 w-8 bg-gradient-to-l from-white to-transparent md:hidden" />
+        
       </div>
     </div>
   );
