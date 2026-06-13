@@ -9,6 +9,6 @@ export const registerCategory=asyncHandler(async(req,res)=>{
 
 export const fetchCategory=asyncHandler(async(req,res)=>{
     const categories=await getCategory()
-    sendResponse(res, 201, 'Category fetch successfully', categories);
+    sendResponse(res, 200, 'Category fetch successfully', categories);
 
 })

@@ -1,24 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCategories, selectCategoryLoading } from "../../features/category/categorySelectors";
+import { fetchCategories } from "../../features/category/categoryThunk";
 
-const categories = [
-  { id: 1, emoji: "🛒", label: "All" },
-  { id: 2, emoji: "🥛", label: "Dairy & Eggs" },
-  { id: 3, emoji: "🥦", label: "Vegetables" },
-  { id: 4, emoji: "🍎", label: "Fruits" },
 
-  { id: 6, emoji: "🥤", label: "Beverages" },
-  { id: 7, emoji: "🍿", label: "Snacks" },
-  { id: 8, emoji: "🧴", label: "Personal Care" },
-  { id: 9, emoji: "🧹", label: "Household" },
-  { id: 10, emoji: "🍞", label: "Bakery" },
-  { id: 11, emoji: "🍦", label: "Ice Cream" },
-  { id: 12, emoji: "☕", label: "Tea & Coffee" },
-  { id: 13, emoji: "🧃", label: "Juices" },
-  { id: 14, emoji: "🍫", label: "Chocolates" },
-];
 
 const CategoryPills = () => {
   const [active, setActive] = useState(1);
+  const dispatch=useDispatch()
+  const categories=useSelector(selectCategories)
+  const loading=useSelector(selectCategoryLoading)
+
+  console.log(categories)
+
+  useEffect(()=>{
+    dispatch(fetchCategories())
+  },[dispatch])
+
+  if (loading) return (
+    <div className="bg-white border-b border-gray-100 sticky top-[65px] z-40">
+      <div className="max-w-screen-xl mx-auto px-6">
+        <div className="flex items-center gap-3 py-4">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="h-9 w-24 bg-gray-100 rounded-full animate-pulse" />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="sticky top-[65px] z-40 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">

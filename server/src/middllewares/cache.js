@@ -5,13 +5,13 @@ const cache = (ttl = 300) => async (req, res, next) => {
 
   const cached = await redis.get(key);
   if (cached) {
+    console.log(`Cache HIT → ${key}`);
     return res.json(JSON.parse(cached));
   }
 
-  // override res.json to save to cache before sending
   const originalJson = res.json.bind(res);
   res.json = (data) => {
-    redis.setEx(key, ttl, JSON.stringify(data));
+    redis.set(key, JSON.stringify(data), "EX", ttl);
     return originalJson(data);
   };
 

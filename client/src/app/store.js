@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import authReducer from "../features/auth/authSlice";
+import categoryReducer from "../features/category/categorySlice";
 
 // ─── Persist Config ───────────────────────────────────────────────────────────
 // Only auth slice is persisted. Add other slices here if needed.
@@ -19,7 +20,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  // add more slices here: e.g. posts: postsReducer
+  category:categoryReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
